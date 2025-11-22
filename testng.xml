@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Grocery Store API Test Suite" verbose="0">
+    <test name="Complete API Test Flow" >
+        <classes>
+
+            <class name="tests.Status"/>
+            <class name="tests.Register"/>
+            <class name="tests.Products"/>
+            <class name="tests.Cart"/>
+            <class name="tests.Orders"/>
+
+        </classes>
+    </test>
+</suite>
