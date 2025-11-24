@@ -21,6 +21,7 @@ public class Cart {
         Response response = RestAssured
                 .given()
                 .header("Content-Type", "application/json")
+                .when()
                 .post(Base.URL + "/carts")
                 .then()
                 .statusCode(201)
@@ -172,7 +173,7 @@ public class Cart {
 
         Map<String, Object> body = new HashMap<>();
         body.put("productId", Variables.getProductId());
-        body.put("quantity" ,1);
+        body.put("quantity" ,2);
 
 
         Response response = RestAssured
@@ -193,20 +194,21 @@ public class Cart {
     }
 
 
-    @Test( dependsOnMethods = {"addItem"})
+    @Test( dependsOnMethods = {"addItemAgain"})
     @Description("Verify modifying the quantity of an item in the cart")
     @Tag("Modify Item Quantity")
     @Severity(SeverityLevel.CRITICAL)
     public void modifyItemQuantity() {
 
         Map<String, Object> body = new HashMap<>();
-        body.put("quantity", 2);
+        body.put("quantity", 4);
         Response response = RestAssured
                 .given()
                 .header("Content-Type", "application/json")
                 .pathParam("cartId", Variables.getCartId())
                 .pathParam("itemId", Variables.getItemId())
                 .body(body)
+                .when()
                 .patch(Base.URL + "/carts/{cartId}/items/{itemId}")
                 .then()
                 .statusCode(204)
@@ -229,6 +231,7 @@ public class Cart {
                 .header("Content-Type", "application/json")
                 .pathParam("itemId", Variables.getItemId())
                 .body(body)
+                .when()
                 .patch(Base.URL + "/carts/items/{itemId}")
                 .then()
                 .statusCode(404)
@@ -253,6 +256,7 @@ public class Cart {
                 .pathParam("cartId", Variables.getCartId())
                 .pathParam("itemId", Variables.getItemId())
                 .body(body)
+                .when()
                 .put(Base.URL + "/carts/{cartId}/items/{itemId}")
                 .then()
                 .statusCode(204)
@@ -277,6 +281,7 @@ public class Cart {
                 .pathParam("cartId", Variables.getCartId())
                 .pathParam("itemId", Variables.getItemId())
                 .body(body)
+                .when()
                 .put(Base.URL + "/carts/{cartId}/items/{itemId}")
                 .then()
                 .statusCode(400)
@@ -302,6 +307,7 @@ public class Cart {
                 .header("Content-Type", "application/json")
                 .pathParam("itemId", Variables.getItemId())
                 .body(body)
+                .when()
                 .put(Base.URL + "/carts/items/{itemId}")
                 .then()
                 .statusCode(404)
@@ -325,6 +331,7 @@ public class Cart {
                 .pathParam("cartId", Variables.getCartId())
                 .when()
                 .body(body)
+                .when()
                 .post(Base.URL + "/carts/{cartId}/items")
                 .then()
                 .statusCode(400)
@@ -349,6 +356,7 @@ public class Cart {
                 .pathParam("cartId", Variables.getCartId())
                 .pathParam("itemId", Variables.getItemId())
                 .body(body)
+                .when()
                 .patch(Base.URL + "/carts/{cartId}/items/{itemId}")
                 .then()
                 .statusCode(400)
@@ -356,10 +364,5 @@ public class Cart {
         response.prettyPrint();
 
     }
-
-
-
-
-
 
 }

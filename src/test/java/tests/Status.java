@@ -12,7 +12,7 @@ import utils.Base;
 
 public class Status {
 
-    @Test( groups = "Status")
+    @Test
     @Description("Verify that the status is UP ")
     @Tag("Checking Status")
     @Severity(SeverityLevel.NORMAL)
