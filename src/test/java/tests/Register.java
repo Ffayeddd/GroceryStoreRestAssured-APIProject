@@ -14,8 +14,8 @@ import java.util.*;
 public class Register {
     
     @Test
-    @Description("Verify that a client can successfully register with valid name and email")
-    @Tag("Client Registration")
+    @Description("Verify that client can successfully register with valid name and email")
+    @Tag("Valid Registration")
     @Severity(SeverityLevel.CRITICAL)
     public void registerClientSuccess() {
 
@@ -42,7 +42,7 @@ public class Register {
 
     @Test
     @Description("Check if client can register with invalid data types")
-    @Tag("Client Registration")
+    @Tag("Invalid Registration")
     @Severity(SeverityLevel.CRITICAL)
     public void registerClientBadRequest() {
 
@@ -66,10 +66,10 @@ public class Register {
     }
 
     @Test
-    @Description("Check if client can register with duplicated email ")
-    @Tag("Client Registration")
+    @Description("Check if client can register with existed credintials ")
+    @Tag("Invalid Registration")
     @Severity(SeverityLevel.CRITICAL)
-    public void registerClientDuplicateEmail() {
+    public void registerClientExisted() {
 
         Map<String, String> body = new HashMap<>();
         body.put("clientName", "fatma");
@@ -92,7 +92,7 @@ public class Register {
 
     @Test
     @Description("Check if client can register with missing email ")
-    @Tag("Client Registration")
+    @Tag("Invalid Registration")
     @Severity(SeverityLevel.CRITICAL)
     public void registerClientMissingEmail() {
         Map<String, String> body = new HashMap<>();
@@ -115,7 +115,7 @@ public class Register {
 
     @Test
     @Description("Check if client can register with missing name ")
-    @Tag("Client Registration")
+    @Tag("Invalid Registration")
     @Severity(SeverityLevel.CRITICAL)
     public void registerClientMissingName() {
         Map<String, String> body = new HashMap<>();

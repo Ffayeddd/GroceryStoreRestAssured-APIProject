@@ -35,7 +35,7 @@ public class Products {
 
     @Test
     @Description("Verify retrieval of available products")
-    @Tag("Get Available Products")
+    @Tag("Filtering Products")
     @Severity(SeverityLevel.CRITICAL)
     public void getAvailableProducts() {
         Response response = RestAssured
@@ -63,7 +63,7 @@ public class Products {
 
     @Test
     @Description("Verify retrieval of unavailable products")
-    @Tag("Get Unavailable Products")
+    @Tag("Filtering Products")
     @Severity(SeverityLevel.CRITICAL)
     public void getUnavailableProducts() {
         Response response = RestAssured
@@ -82,8 +82,8 @@ public class Products {
     }
 
     @Test( dependsOnMethods = {"getAvailableProducts"})
-    @Description("Verify retrieval of product by ID")
-    @Tag("Get Product By ID")
+    @Description("Verify getting product by valid Id")
+    @Tag("Valid getting product")
     @Severity(SeverityLevel.CRITICAL)
     public void getProductById() {
 
@@ -103,8 +103,8 @@ public class Products {
 
 
     @Test( dependsOnMethods = {"getAvailableProducts"})
-    @Description("Verify getting product by invalid ID")
-    @Tag("Invalid Product ID")
+    @Description("Verify getting product by invalid Id")
+    @Tag("invalid getting product")
     @Severity(SeverityLevel.CRITICAL)
     public void getProductbyInvalidId() {
         Response response = RestAssured

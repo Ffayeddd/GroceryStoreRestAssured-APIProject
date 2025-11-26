@@ -1,5 +1,4 @@
 package tests;
-
 import utils.Base;
 import utils.Variables;
 import io.restassured.RestAssured;
@@ -18,7 +17,7 @@ public class Orders {
 
     @Test(dependsOnMethods = {"tests.Cart.addItem"})
     @Description("Verify creation of a new order")
-    @Tag("Create Order")
+    @Tag("Valid Creating Order")
     @Severity(SeverityLevel.CRITICAL)
     public void createNewOrder() {
 
@@ -45,8 +44,8 @@ public class Orders {
 
 
     @Test( dependsOnMethods = {"tests.Cart.addItem"})
-    @Description("Verify creating an order with an invalid cartId")
-    @Tag("Create Order Empty Cart")
+    @Description("Verify creating an order with an invalid cart Id")
+    @Tag("Invalid Creating order")
     @Severity(SeverityLevel.CRITICAL)
     public void createOrderWithinvalidCartId() {
 
@@ -70,8 +69,8 @@ public class Orders {
 
 
     @Test(dependsOnMethods = {"tests.Cart.addItem"})
-    @Description("Verify creating an order without authentication")
-    @Tag("Create Order Without Auth")
+    @Description("Verify creating an order without authorization")
+    @Tag("Invalid Creating order")
     @Severity(SeverityLevel.CRITICAL)
     public void createOrderWithoutAuth() {
 
@@ -95,7 +94,7 @@ public class Orders {
 
     @Test(dependsOnMethods = {"createNewOrder"})
     @Description("Verify retrieval of all orders")
-    @Tag("Get All Orders")
+    @Tag("Valid Getting All Orders")
     @Severity(SeverityLevel.NORMAL)
     public void getAllOrders() {
 
@@ -113,8 +112,8 @@ public class Orders {
     }
 
     @Test(dependsOnMethods = {"createNewOrder"})
-    @Description("Verify retrieving orders without authentication ")
-    @Tag("Get Orders Without Auth")
+    @Description("Verify retrieving orders without authorization ")
+    @Tag("Invalid Getting All Orders")
     @Severity(SeverityLevel.CRITICAL)
     public void getOrdersWithoutAuth() {
         Response response = RestAssured
@@ -131,8 +130,8 @@ public class Orders {
 
 
     @Test( dependsOnMethods = {"createNewOrder"})
-    @Description("Verify retrieval of a single order by ID")
-    @Tag("Get Single Order")
+    @Description("Verify retrieval of a single order")
+    @Tag("Valid Getting Single Order")
     @Severity(SeverityLevel.CRITICAL)
     public void getSingleOrder() {
 
@@ -154,8 +153,8 @@ public class Orders {
 
 
     @Test( dependsOnMethods = {"createNewOrder"})
-    @Description("Verify retrieval of a single order without authorization")
-    @Tag("Get Single Order")
+    @Description("Verify retrieval of a single order without authorization ")
+    @Tag("Invalid Getting Single Order")
     @Severity(SeverityLevel.CRITICAL)
     public void getSingleOrderwithoutAuth() {
 
@@ -175,8 +174,8 @@ public class Orders {
 
 
     @Test(dependsOnMethods = {"createNewOrder"})
-    @Description("Verify that retrieving a non-existent order ")
-    @Tag("Get Non-Existent Order")
+    @Description("Verify retrieving a non-existent order ")
+    @Tag("Invalid Getting Single Order")
     @Severity(SeverityLevel.CRITICAL)
     public void getNonExistentOrder() {
 
@@ -196,8 +195,8 @@ public class Orders {
 
 
     @Test(dependsOnMethods = {"getSingleOrder"})
-    @Description("Verify updating order")
-    @Tag("Update Order")
+    @Description("Verify updating order with updated customer name")
+    @Tag("Valid updating Order")
     @Severity(SeverityLevel.CRITICAL)
     public void updateOrder() {
 
@@ -218,14 +217,14 @@ public class Orders {
 
         response.prettyPrint();
 
-        System.out.println(Variables.getOrderId());
-
     }
+
+
 
 
     @Test(dependsOnMethods = {"getSingleOrder"})
     @Description("Verify updating an order without authorization ")
-    @Tag("Update Order With Invalid Token")
+    @Tag("Invalid updating Order")
     @Severity(SeverityLevel.CRITICAL)
     public void updateOrderWithoutAuth() {
         Map<String, Object> body = new HashMap<>();
@@ -246,9 +245,9 @@ public class Orders {
     }
 
 
-    @Test( dependsOnMethods = {"updateOrder"})
-    @Description("Verify deleting of an order")
-    @Tag("Delete Order")
+    @Test(dependsOnMethods = {"updateOrder"})
+    @Description("Verify deleting an order")
+    @Tag("Valid Deleting Order")
     @Severity(SeverityLevel.CRITICAL)
 
     public void deleteOrder() {
@@ -268,8 +267,8 @@ public class Orders {
 
 
     @Test( dependsOnMethods = {"deleteOrder"})
-    @Description("Verify data after deleting order")
-    @Tag("Verify Deleted Order")
+    @Description("Verify data existence after deleting order")
+    @Tag("Verify Deleted Order" )
     @Severity(SeverityLevel.CRITICAL)
     public void getOrderafterDeletion() {
 
@@ -289,7 +288,7 @@ public class Orders {
 
     @Test( dependsOnMethods = {"updateOrder"})
     @Description("Verify deleting a non-existent order ")
-    @Tag("Delete Non-Existent Order")
+    @Tag("Invalid Deleting Order")
     @Severity(SeverityLevel.CRITICAL)
     public void deleteNonExistentOrder() {
 

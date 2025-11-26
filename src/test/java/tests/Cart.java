@@ -35,8 +35,8 @@ public class Cart {
 
 
     @Test( dependsOnMethods = {"createNewCart"})
-    @Description("Verify retrieval of a cart by ID")
-    @Tag("Get Cart By ID")
+    @Description("Verify retrieval of cart by valid Id")
+    @Tag("Valid getting cart")
     @Severity(SeverityLevel.CRITICAL)
     public void getCartById() {
         Response response = RestAssured
@@ -55,7 +55,7 @@ public class Cart {
 
     @Test( dependsOnMethods = {"createNewCart"})
     @Description("Verify retrieving a non-existing cart ")
-    @Tag("Get cart by nonexistent id")
+    @Tag("Invalid getting cart")
     @Severity(SeverityLevel.NORMAL)
     public void getCartbynonexistentId() {
         String invalidCartId = "non-existing-cart-123456";
@@ -77,7 +77,7 @@ public class Cart {
 
    @Test(dependsOnMethods = {"createNewCart"})
    @Description("Verify adding an item to the cart")
-   @Tag("Add Item to Cart")
+   @Tag("Valid Adding Item ")
    @Severity(SeverityLevel.CRITICAL)
     public void addItem() {
 
@@ -102,9 +102,35 @@ public class Cart {
     }
 
 
+
+    @Test( dependsOnMethods = {"createNewCart"})
+    @Description("Verify adding an item with invalid product Id ")
+    @Tag("Invalid Adding Item")
+    @Severity(SeverityLevel.CRITICAL)
+    public void addItemWithInvalidProductId() {
+        Map<String, Object> body = new HashMap<>();
+        body.put("productId", "hhhh");
+        body.put("quantity" ,7);
+
+        Response response = RestAssured
+                .given()
+                .header("Content-Type", "application/json")
+                .pathParam("cartId", Variables.getCartId())
+                .when()
+                .body(body)
+                .when()
+                .post(Base.URL + "/carts/{cartId}/items")
+                .then()
+                .statusCode(400)
+                .extract().response();
+        response.prettyPrint();
+
+    }
+
+
     @Test( dependsOnMethods = {"addItem"})
     @Description("Verify deletion of an item from the cart")
-    @Tag("Delete Item from Cart")
+    @Tag("Valid Deleting Item ")
     @Severity(SeverityLevel.CRITICAL)
     public void deleteItem() {
 
@@ -122,9 +148,9 @@ public class Cart {
 
     }
 
-    @Test(dependsOnMethods = {"addItemAgain"})
+    @Test(dependsOnMethods = {"addItem"})
     @Description("Verify deleting a non-existing item ")
-    @Tag("Delete Non-existing Item")
+    @Tag("Invalid Deleting Item ")
     @Severity(SeverityLevel.NORMAL)
     public void deleteNonExistingItem() {
         String invalidItemId = "9999999999999";
@@ -196,7 +222,7 @@ public class Cart {
 
     @Test( dependsOnMethods = {"addItemAgain"})
     @Description("Verify modifying the quantity of an item in the cart")
-    @Tag("Modify Item Quantity")
+    @Tag("Valid Modifying Item Quantity")
     @Severity(SeverityLevel.CRITICAL)
     public void modifyItemQuantity() {
 
@@ -217,14 +243,14 @@ public class Cart {
 
     }
 
-    @Test(dependsOnMethods = {"addItem"})
+    @Test(dependsOnMethods = {"addItemAgain"})
     @Description("Verify modifying the quantity with missing cartId")
-    @Tag("Modify Item Quantity")
+    @Tag("Invalid Modifying Item Quantity")
     @Severity(SeverityLevel.CRITICAL)
     public void modifyItemwithmissingcartid() {
 
         Map<String, Object> body = new HashMap<>();
-        body.put("quantity", 2);
+        body.put("quantity", 3);
 
         Response response = RestAssured
                 .given()
@@ -240,9 +266,33 @@ public class Cart {
   }
 
 
-    @Test(dependsOnMethods = {"addItem"})
-    @Description("Verify replacing an item in the cart with a new product")
-    @Tag("Replace Item in Cart")
+    @Test(dependsOnMethods = {"addItemAgain"})
+    @Description("Verify modifying item with invalid quantity ")
+    @Tag("Invalid Modifying Item Quantity")
+    @Severity(SeverityLevel.NORMAL)
+    public void modifyItemWithInvalidQuantity() {
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("quantity", "invalid");
+
+        Response response = RestAssured
+                .given()
+                .header("Content-Type", "application/json")
+                .pathParam("cartId", Variables.getCartId())
+                .pathParam("itemId", Variables.getItemId())
+                .body(body)
+                .when()
+                .patch(Base.URL + "/carts/{cartId}/items/{itemId}")
+                .then()
+                .statusCode(400)
+                .extract().response();
+        response.prettyPrint();
+
+    }
+
+    @Test(dependsOnMethods = {"addItemAgain"})
+    @Description("Verify replacing an item in the cart ")
+    @Tag("Valid Replacing Item in Cart")
     @Severity(SeverityLevel.CRITICAL)
     public void replaceItemInCart() {
 
@@ -265,9 +315,9 @@ public class Cart {
 
     }
 
-    @Test( dependsOnMethods = {"addItem"})
-    @Description("Verify replacing an item in the cart with a new product with invalid productId")
-    @Tag("Replace Item in Cart")
+    @Test(dependsOnMethods = {"addItemAgain"})
+    @Description("Verify replacing an item in the cart with invalid product Id")
+    @Tag("Invalid Replacing Item in Cart")
     @Severity(SeverityLevel.CRITICAL)
     public void replaceItemInCartwithinvalidproductId() {
 
@@ -292,9 +342,9 @@ public class Cart {
 
 
 
-    @Test( dependsOnMethods = {"addItem"})
-    @Description("Verify replacing an item in the cart with a new product with missing cartId")
-    @Tag("Replace Item in Cart")
+    @Test( dependsOnMethods = {"addItemAgain"})
+    @Description("Verify replacing an item in the cart with missing cart Id")
+    @Tag("Invalid Replacing Item in Cart")
     @Severity(SeverityLevel.CRITICAL)
     public void replaceItemInCartwithmissingCartId() {
 
@@ -317,52 +367,5 @@ public class Cart {
     }
 
 
-    @Test( dependsOnMethods = {"createNewCart"})
-    @Description("Verify adding an item with invalid product ID ")
-    @Tag("Add Item with Invalid Product ID")
-    @Severity(SeverityLevel.CRITICAL)
-    public void addItemWithInvalidProductId() {
-       Map<String, Object> body = new HashMap<>();
-        body.put("productId", "hhhh");
-
-        Response response = RestAssured
-                .given()
-                .header("Content-Type", "application/json")
-                .pathParam("cartId", Variables.getCartId())
-                .when()
-                .body(body)
-                .when()
-                .post(Base.URL + "/carts/{cartId}/items")
-                .then()
-                .statusCode(400)
-                .extract().response();
-        response.prettyPrint();
-
-    }
-
-
-    @Test(dependsOnMethods = {"addItem"})
-    @Description("Verify modifying item with invalid quantity ")
-    @Tag("invalid scenario")
-    @Severity(SeverityLevel.NORMAL)
-    public void modifyItemWithInvalidQuantity() {
-
-     Map<String, Object> body = new HashMap<>();
-        body.put("quantity", "invalid");
-
-        Response response = RestAssured
-                .given()
-                .header("Content-Type", "application/json")
-                .pathParam("cartId", Variables.getCartId())
-                .pathParam("itemId", Variables.getItemId())
-                .body(body)
-                .when()
-                .patch(Base.URL + "/carts/{cartId}/items/{itemId}")
-                .then()
-                .statusCode(400)
-                .extract().response();
-        response.prettyPrint();
-
-    }
 
 }

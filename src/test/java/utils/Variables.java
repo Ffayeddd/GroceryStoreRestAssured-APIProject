@@ -4,7 +4,7 @@ public class Variables {
 
     private static String clientName = "Client_" + System.currentTimeMillis();
     private static String clientEmail = "email_" + System.currentTimeMillis() + "@gmail.com";
-    public static String updatedCustomerName = clientName + "_updated";
+    private static String updatedCustomerName = clientName + "_updated";
     private static String accessToken;
 
     private static String cartId;
@@ -16,10 +16,12 @@ public class Variables {
 
     // Client Name
     public static void setClientName(String clientName) {
+
         Variables.clientName = clientName;
     }
 
     public static String getClientName() {
+
         return clientName;
     }
 
@@ -28,10 +30,12 @@ public class Variables {
     }
 
     public static String getUpdatedCustomerName(){
+
         return updatedCustomerName;
     }
     // Client Email
     public static void setClientEmail(String clientEmail) {
+
         Variables.clientEmail = clientEmail;
     }
 
@@ -46,26 +50,31 @@ public class Variables {
     }
 
     public static String getAccessToken() {
+
         return accessToken;
     }
 
 
     // Cart ID
     public static void setCartId(String cartId) {
+
         Variables.cartId = cartId;
     }
 
     public static String getCartId() {
+
         return cartId;
     }
 
 
     // Product ID
     public static void setProductId(int productId) {
+
         Variables.productId = productId;
     }
 
     public static int getProductId() {
+
         return productId;
     }
 
@@ -74,20 +83,24 @@ public class Variables {
 
     // Item ID
     public static void setItemId(String itemId) {
+
         Variables.itemId = itemId;
     }
 
     public static String getItemId() {
+
         return itemId;
     }
 
 
     // Order ID
     public static void setOrderId(String orderId) {
+
         Variables.orderId = orderId;
     }
 
     public static String getOrderId() {
+
         return orderId;
     }
 }
