@@ -1,0 +1,3 @@
+{
+    "error": "No cart with id non-existing-cart-123456."
+}

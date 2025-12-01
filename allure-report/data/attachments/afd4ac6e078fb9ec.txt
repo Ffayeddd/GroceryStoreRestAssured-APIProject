@@ -1,0 +1,9 @@
+{
+    "id": 8739,
+    "category": "fresh-produce",
+    "name": "Fresh Spinach Organic",
+    "manufacturer": "Jack&Mary Organic Farms",
+    "price": 2.95,
+    "current-stock": 27,
+    "inStock": true
+}

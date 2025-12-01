@@ -1,4 +1,5 @@
 package tests;
+import io.qameta.allure.Allure;
 import utils.Base;
 import utils.Variables;
 import io.restassured.RestAssured;
@@ -12,7 +13,7 @@ import io.qameta.allure.testng.Tag;
 import java.util.*;
 
 public class Register {
-    
+
     @Test
     @Description("Verify that client can successfully register with valid name and email")
     @Tag("Valid Registration")
@@ -22,21 +23,21 @@ public class Register {
         Map<String, String> body = new HashMap<>();
         body.put("clientName", Variables.getClientName());
         body.put("clientEmail", Variables.getClientEmail());
+        Allure.step("Send POST /api-clients with valid client data", () -> {
+            Response response = RestAssured
+                    .given()
+                    .header("Content-Type", "application/json")
+                    .body(body)
+                    .when()
+                    .post(Base.URL + "/api-clients")
+                    .then()
+                    .statusCode(201)
+                    .body("accessToken", Matchers.notNullValue())
+                    .extract().response();
+            Allure.addAttachment("Response Body", response.getBody().asPrettyString());
+            Variables.setAccessToken(response.jsonPath().getString("accessToken"));
 
-        Response response =RestAssured
-                        .given()
-                        .header("Content-Type", "application/json")
-                        .body(body)
-                        .when()
-                        .post(Base.URL+ "/api-clients")
-                        .then()
-                        .statusCode(201)
-                        .body("accessToken", Matchers.notNullValue())
-                        .extract().response();
-
-        response.prettyPrint();
-        Variables.setAccessToken(response.jsonPath().getString("accessToken"));
-
+        });
     }
 
 
@@ -49,20 +50,21 @@ public class Register {
         Map<String, Object> body = new HashMap<>();
         body.put("clientName", 12345);
         body.put("clientEmail", 67890);
+        Allure.step("Send POST /api-clients with invalid client data", () -> {
+            Response response = RestAssured
+                    .given()
+                    .header("Content-Type", "application/json")
+                    .body(body)
+                    .when()
+                    .post(Base.URL + "/api-clients")
+                    .then()
+                    .statusCode(400)
+                    .body("error", Matchers.equalTo("Invalid or missing client email."))
+                    .extract().response();
+            Allure.addAttachment("Response Body", response.getBody().asPrettyString());
 
-        Response response = RestAssured
-                .given()
-                .header("Content-Type", "application/json")
-                .body(body)
-                .when()
-                .post(Base.URL+ "/api-clients")
-                .then()
-                .statusCode(400)
-                .body("error", Matchers.equalTo("Invalid or missing client email."))
-                .extract().response();
-        response.prettyPrint();
 
-
+        });
     }
 
     @Test
@@ -74,19 +76,19 @@ public class Register {
         Map<String, String> body = new HashMap<>();
         body.put("clientName", "fatma");
         body.put("clientEmail", "fatma19@gmail.com");
-
-        Response response = RestAssured
-                .given()
-                .header("Content-Type", "application/json")
-                .body(body)
-                .when()
-                .post(Base.URL+ "/api-clients")
-                .then()
-                .statusCode(409)
-                .body("error", Matchers.equalTo("API client already registered. Try a different email."))
-                .extract().response();
-                 response.prettyPrint();
-
+        Allure.step("Send POST /api-clients with existing client data", () -> {
+            Response response = RestAssured
+                    .given()
+                    .header("Content-Type", "application/json")
+                    .body(body)
+                    .when()
+                    .post(Base.URL + "/api-clients")
+                    .then()
+                    .statusCode(409)
+                    .body("error", Matchers.equalTo("API client already registered. Try a different email."))
+                    .extract().response();
+            Allure.addAttachment("Response Body", response.getBody().asPrettyString());
+        });
     }
 
 
@@ -99,17 +101,18 @@ public class Register {
 
         body.put("clientEmail", "");
         body.put("clientName", Variables.getClientName());
-
-        Response response = RestAssured
-                .given()
-                .header("Content-Type", "application/json")
-                .body(body)
-                .when()
-                .post(Base.URL+ "/api-clients")
-                .then()
-                .statusCode(400)
-                .extract().response();
-        response.prettyPrint();
+        Allure.step("Send POST /api-clients with missing email", () -> {
+            Response response = RestAssured
+                    .given()
+                    .header("Content-Type", "application/json")
+                    .body(body)
+                    .when()
+                    .post(Base.URL + "/api-clients")
+                    .then()
+                    .statusCode(400)
+                    .extract().response();
+            Allure.addAttachment("Response Body", response.getBody().asPrettyString());
+        });
     }
 
 
@@ -122,16 +125,17 @@ public class Register {
 
         body.put("clientEmail", Variables.getClientEmail());
         body.put("clientName", "");
-        Response response = RestAssured
-                .given()
-                .header("Content-Type", "application/json")
-                .body(body)
-                .when()
-                .post(Base.URL + "/api-clients")
-                .then()
-                .statusCode(400)
-                .extract().response();
-        response.prettyPrint();
-
+        Allure.step("Send POST /api-clients with missing name", () -> {
+            Response response = RestAssured
+                    .given()
+                    .header("Content-Type", "application/json")
+                    .body(body)
+                    .when()
+                    .post(Base.URL + "/api-clients")
+                    .then()
+                    .statusCode(400)
+                    .extract().response();
+            Allure.addAttachment("Response Body", response.getBody().asPrettyString());
+        });
     }
 }

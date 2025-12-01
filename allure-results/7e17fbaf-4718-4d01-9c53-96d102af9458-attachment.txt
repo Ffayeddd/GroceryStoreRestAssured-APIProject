@@ -1,0 +1,13 @@
+{
+    "id": "hSdajIsN1yQAzNRZxwbHO",
+    "items": [
+        {
+            "productId": 1709,
+            "id": 736469450,
+            "quantity": 5
+        }
+    ],
+    "customerName": "Client_1764626348880",
+    "created": "2025-12-01T21:59:18.381Z",
+    "comment": ""
+}

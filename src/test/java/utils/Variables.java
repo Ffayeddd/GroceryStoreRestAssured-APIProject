@@ -46,6 +46,7 @@ public class Variables {
 
     // Access Token
     public static void setAccessToken(String accessToken) {
+
         Variables.accessToken = accessToken;
     }
 

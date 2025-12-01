@@ -1,0 +1,3 @@
+{
+    "error": "Invalid value for query parameter 'available'. Must be one of: true, false"
+}
